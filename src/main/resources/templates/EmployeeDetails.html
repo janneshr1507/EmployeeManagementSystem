@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 500px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .value {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .not-found {
+            color: red;
+            font-weight: bold;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee Details</h2>
+
+    <div th:if="${employee != null}">
+        <div>
+            <span class="label">Employee ID:</span>
+            <span class="value" th:text="${employee.empId}">--</span>
+        </div>
+        <div>
+            <span class="label">Name:</span>
+            <span class="value" th:text="${employee.name}">--</span>
+        </div>
+        <div>
+            <span class="label">Role:</span>
+            <span class="value" th:text="${employee.role}">--</span>
+        </div>
+        <div>
+            <span class="label">Contact:</span>
+            <span class="value" th:text="${employee.contact}">--</span>
+        </div>
+        <!-- Add more fields if needed -->
+    </div>
+
+    <p class="not-found" th:if="${employee == null}">Employee not found.</p>
+
+    <a th:href="@{/}">&#8592; Back to Home</a>
+</div>
+
+</body>
+</html>
