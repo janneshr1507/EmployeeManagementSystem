@@ -29,12 +29,22 @@
         }
 
         input[type="text"],
-        input[type="tel"] {
+        input[type="number"],
+        select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+
+        .radio-group {
+            margin-top: 5px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            margin-right: 15px;
         }
 
         input[type="submit"] {
@@ -65,16 +75,28 @@
 
     <form action="/add" method="post" modelAttribute="employee">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" required
+               pattern="[A-Za-z\s]+" title="Alphabets only"
+               oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
 
         <label for="contact">Contact:</label>
-        <input type="tel" id="contact" name="contact" required>
+        <input type="number" id="contact" name="contact" required
+               oninput="this.value=this.value.replace(/[^0-9]/g,'');">
 
         <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required>
+        <select id="role" name="role" required>
+            <option value="">-- Select Role --</option>
+            <option value="Trainee">Trainee</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Senior Software Engineer">Senior Software Engineer</option>
+            <option value="Team Lead">Team Lead</option>
+        </select>
 
-        <label for="department">Department:</label>
-        <input type="text" id="department" name="department" required>
+        <label>Department:</label>
+        <div class="radio-group">
+            <label><input type="radio" name="department" value="Technical" required> Technical</label>
+            <label><input type="radio" name="department" value="Non-Technical"> Non-Technical</label>
+        </div>
 
         <input type="submit" value="Add Employee">
     </form>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Update Employee</title>
@@ -7,42 +7,56 @@
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
         }
 
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
+        h2 {
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 25px;
             width: 400px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         label {
-            font-weight: bold;
             display: block;
             margin-top: 15px;
+            font-weight: bold;
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
-            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
-        button {
+        .radio-group {
+            margin-top: 5px;
+        }
+
+        .radio-group input {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
             margin-top: 20px;
-            padding: 10px 15px;
+            padding: 10px 20px;
             background-color: #3498db;
-            border: none;
             color: white;
+            border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        button:hover {
+        input[type="submit"]:hover {
             background-color: #2980b9;
         }
 
@@ -55,29 +69,37 @@
     </style>
 </head>
 <body>
-<div class="container">
+
     <h2>Update Employee</h2>
 
     <form th:action="@{/update}" th:object="${employee}" method="post">
+        <label for="empId">Employee ID:</label>
+        <input type="number" id="empId" th:field="*{empId}" required placeholder="Enter existing Employee ID"/>
 
-        <!-- EmpId to find and update -->
-        <label for="empId">Employee ID</label>
-        <input type="number" th:field="*{empId}" required/>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}"
+               pattern="[A-Za-z\s]+" title="Alphabets only"
+               oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+               placeholder="Enter new name">
 
-        <!-- Fields to update -->
-        <label for="name">Name</label>
-        <input type="text" th:field="*{name}" placeholder="Enter new name"/>
+        <label for="contact">Contact:</label>
+        <input type="number" id="contact" th:field="*{contact}"
+               oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+               placeholder="Enter new contact">
 
-        <label for="role">Role</label>
-        <input type="text" th:field="*{role}" placeholder="Enter new role"/>
+        <label for="role">Role:</label>
+        <select id="role" th:field="*{role}">
+            <option value="">-- Select New Role --</option>
+            <option value="Trainee">Trainee</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Senior Software Engineer">Senior Software Engineer</option>
+            <option value="Team Lead">Team Lead</option>
+        </select>
 
-        <label for="contact">Contact</label>
-        <input type="number" th:field="*{contact}" placeholder="Enter new contact"/>
-
-        <button type="submit">Update Employee</button>
+        <input type="submit" value="Update Employee">
     </form>
 
     <a th:href="@{/}">&#8592; Back to Home</a>
-</div>
+
 </body>
 </html>
