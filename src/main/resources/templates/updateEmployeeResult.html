@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Update Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            width: 450px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee Update Status</h2>
+
+    <p class="success" th:if="${status == 'success'}">
+        Employee updated successfully!<br/>
+        Employee ID: <span th:text="${empId}">EMP123</span>
+    </p>
+
+    <p class="failure" th:if="${status == 'failure'}">
+        Failed to update employee. Please check if the Employee ID exists.
+    </p>
+
+    <a th:href="@{/}">&#8592; Back to Home</a>
+</div>
+
+</body>
+</html>

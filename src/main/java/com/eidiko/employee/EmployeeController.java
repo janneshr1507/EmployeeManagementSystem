@@ -1,5 +1,8 @@
 package com.eidiko.employee;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,14 +42,44 @@ public class EmployeeController {
 		return "addEmployeeResult";
 	}
 	
-	/*@GetMapping("/update")
+	@GetMapping("/update")
 	public String updateEmployee(Model model) {
-		
-	}*/
+		model.addAttribute("employee", new Employee());
+		return "updateEmployee";
+	}
 	
-	/*public String deleteEmployee() {
+	@PostMapping("/update")
+	public String updateEmployee(@ModelAttribute("employee") Employee employee, Model model) {
+		boolean updateStatus = employeeService.updateEmployee(employee);
 		
-	}*/
+		if(updateStatus) {
+			model.addAttribute("status", "success");
+			model.addAttribute("empId", employee.getEmpId());
+		} else {
+			model.addAttribute("status", "failure");
+		}
+		return "updateEmployeeResult";
+	}
+	
+	@GetMapping("/delete")
+	public String deleteEmployee_Details(Model model) {
+		model.addAttribute("employee", new Employee());
+		return "deleteEmployee";
+	}
+	
+	@PostMapping("/delete")
+	public String deleteEmployee(@ModelAttribute("employee") Employee employee, Model model) {
+		int empId = employee.getEmpId();
+		boolean deleteStatus = employeeService.deleteEmployee(empId);
+		
+		if(deleteStatus) {
+			model.addAttribute("status", "success");
+	        model.addAttribute("empId", empId);
+		} else {
+			model.addAttribute("status", "failure");
+		}
+		return "deleteStatus";
+	}
 	
 	@GetMapping("/search")
 	public String searchEmployeeById(Model model) {
@@ -56,9 +89,23 @@ public class EmployeeController {
 	
 	@PostMapping("/search")
 	public String searchEmployee(@ModelAttribute("searchRequest") Employee employee, Model model) {
-		Employee emp = employeeService.getEmployee(employee.getEmpId()).get();
-		model.addAttribute("employee", emp);
-		return "EmployeeDetails";
+	    Optional<Employee> optionalEmp = employeeService.getEmployee(employee.getEmpId());
+
+	    if (optionalEmp.isPresent()) {
+	        model.addAttribute("employee", optionalEmp.get());
+	    } else {
+	        model.addAttribute("employee", null);
+	    }
+
+	    return "EmployeeDetails";
+	}
+
+	
+	@GetMapping("/all")
+	public String allEmployess(Model model) {
+		List<Employee> list = employeeService.getAllEmployees();
+		model.addAttribute("employeeList", list);
+		return "allEmployees";
 	}
 
 }
